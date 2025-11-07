@@ -153,6 +153,39 @@ public class ShotDevsClient {
         data.put("firstPlayed", player.getFirstPlayed());
         data.put("lastPlayed", isOnline ? player.getLastPlayed() : System.currentTimeMillis());
         data.put("hasPlayedBefore", player.hasPlayedBefore());
+
+        data.put("health", player.getHealth());
+        data.put("foodLevel", player.getFoodLevel());
+        data.put("level", player.getLevel());
+        data.put("exp", player.getExp());
+        data.put("totalExperience", player.getTotalExperience());
+        data.put("gameMode", player.getGameMode().name());
+
+        Map<String, Object> location = new HashMap<>();
+        location.put("world", player.getWorld().getName());
+        location.put("x", player.getLocation().getX());
+        location.put("y", player.getLocation().getY());
+        location.put("z", player.getLocation().getZ());
+        location.put("yaw", player.getLocation().getYaw());
+        location.put("pitch", player.getLocation().getPitch());
+        data.put("location", location);
+
+        Map<String, Object> statistics = new HashMap<>();
+        statistics.put("blocksPlaced", player.getStatistic(org.bukkit.Statistic.USE_ITEM, org.bukkit.Material.AIR));
+        statistics.put("blocksBroken", player.getStatistic(org.bukkit.Statistic.MINE_BLOCK, org.bukkit.Material.AIR));
+        statistics.put("deaths", player.getStatistic(org.bukkit.Statistic.DEATHS));
+        statistics.put("playerKills", player.getStatistic(org.bukkit.Statistic.PLAYER_KILLS));
+        statistics.put("mobKills", player.getStatistic(org.bukkit.Statistic.MOB_KILLS));
+        statistics.put("distanceWalked", player.getStatistic(org.bukkit.Statistic.WALK_ONE_CM));
+        statistics.put("distanceSprinted", player.getStatistic(org.bukkit.Statistic.SPRINT_ONE_CM));
+        statistics.put("distanceFlown", player.getStatistic(org.bukkit.Statistic.FLY_ONE_CM));
+        statistics.put("timePlayed", player.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE));
+        statistics.put("itemsCrafted", player.getStatistic(org.bukkit.Statistic.CRAFT_ITEM, org.bukkit.Material.AIR));
+        statistics.put("damageTaken", player.getStatistic(org.bukkit.Statistic.DAMAGE_TAKEN));
+        statistics.put("damageDealt", player.getStatistic(org.bukkit.Statistic.DAMAGE_DEALT));
+        statistics.put("jumps", player.getStatistic(org.bukkit.Statistic.JUMP));
+        data.put("statistics", statistics);
+
         return data;
     }
 

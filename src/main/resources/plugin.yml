@@ -1,5 +1,5 @@
 name: ShotData
-version: 1.0.0
+version: 1.0.1
 main: com.shotdevs.shotdata.ShotDataPlugin
 api-version: 1.21
 author: YourName
