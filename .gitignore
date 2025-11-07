@@ -18,6 +18,8 @@ buildNumber.properties
 .project
 .settings/
 .DS_Store
+.qoder
+
 
 # Logs
 logs
