@@ -1,0 +1,15 @@
+name: ShotData
+version: 1.0.0
+main: com.shotdevs.shotdata.ShotDataPlugin
+api-version: 1.17
+author: YourName
+description: Sends player and server data to ShotDevs.
+commands:
+  shotdata:
+    description: Main command for the ShotData plugin.
+    usage: /shotdata <status|sendnow|reload>
+    aliases: [sd]
+permissions:
+  shotdata.admin:
+    description: Allows usage of admin commands for ShotData.
+    default: op

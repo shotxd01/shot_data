@@ -1,0 +1,11 @@
+{
+  "uuid": "00000000-0000-0000-0000-000000000000",
+  "name": "PlayerName",
+  "displayName": "PlayerName",
+  "playerListName": "PlayerName",
+  "address": "127.0.0.1",
+  "isOnline": true,
+  "firstPlayed": 1678886400000,
+  "lastPlayed": 1678886400000,
+  "hasPlayedBefore": true
+}

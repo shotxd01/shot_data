@@ -1,0 +1,20 @@
+{
+  "tps": {
+    "oneMinute": 20.0,
+    "fiveMinutes": 20.0,
+    "fifteenMinutes": 20.0
+  },
+  "averageTickTime": 50.0,
+  "memory": {
+    "total": 1073741824,
+    "used": 536870912,
+    "free": 536870912
+  },
+  "uptime": 3600000,
+  "cpuLoad": 0.5,
+  "players": {
+    "online": 10,
+    "max": 100,
+    "totalRegistered": 1000
+  }
+}

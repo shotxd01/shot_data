@@ -1,0 +1,22 @@
+shotdevs-plugin:
+  api:
+    base-url: "https://shotdevs.live/api/v1/plugin"
+    api-key: "plg_your_api_key_here"
+    timeout: 5000
+    max-retries: 4
+    backoff-base-ms: 500
+  data-collection:
+    player-data:
+      enabled: true
+      update-interval: 300 # seconds - coalesced/poll frequency
+      debouncer-ms: 2000 # ms to coalesce multiple changes for same player
+    server-data:
+      enabled: true
+      update-interval: 60 # seconds
+  privacy:
+    collect-ip-addresses: false
+    anonymize-player-names: false
+  logging:
+    verbose: true
+  storage:
+    pending-folder: "plugins/shot_data/pending"
