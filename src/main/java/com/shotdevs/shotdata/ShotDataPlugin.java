@@ -3,7 +3,9 @@ package com.shotdevs.shotdata;
 import com.shotdevs.shotdata.api.ShotDevsClient;
 import com.shotdevs.shotdata.commands.ShotDataCommand;
 import com.shotdevs.shotdata.listeners.PlayerListener;
+import com.shotdevs.shotdata.listeners.StatisticListener;
 import com.shotdevs.shotdata.util.FileStorage;
+import com.shotdevs.shotdata.util.StatisticManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -18,6 +20,7 @@ public class ShotDataPlugin extends JavaPlugin {
     private static ShotDataPlugin instance;
     private ShotDevsClient shotDevsClient;
     private FileStorage fileStorage;
+    private StatisticManager statisticManager;
     private BukkitTask serverDataTask;
 
     @Override
@@ -29,11 +32,15 @@ public class ShotDataPlugin extends JavaPlugin {
         String pendingFolderPath = getConfig().getString("shotdevs-plugin.storage.pending-folder", "plugins/shot_data/pending");
         this.fileStorage = new FileStorage(new File(pendingFolderPath));
 
+        // Initialize StatisticManager
+        this.statisticManager = new StatisticManager();
+
         // Initialize API client
         this.shotDevsClient = new ShotDevsClient(this);
 
         // Register listeners and commands
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new StatisticListener(this.statisticManager), this);
         getCommand("shotdata").setExecutor(new ShotDataCommand(this));
 
         // Schedule periodic server data task
@@ -99,5 +106,14 @@ public class ShotDataPlugin extends JavaPlugin {
      */
     public FileStorage getFileStorage() {
         return fileStorage;
+    }
+
+    /**
+     * Gets the statistic manager.
+     *
+     * @return The StatisticManager instance.
+     */
+    public StatisticManager getStatisticManager() {
+        return statisticManager;
     }
 }

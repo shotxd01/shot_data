@@ -46,6 +46,8 @@ public class PlayerListener implements Listener {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             // Update the player's data one last time before sending
             plugin.getShotDevsClient().sendPlayerQuitData(player);
+            // Clear the player's statistics from memory
+            plugin.getStatisticManager().clearStatistics(player.getUniqueId());
         });
     }
 }

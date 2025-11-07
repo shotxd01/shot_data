@@ -171,8 +171,13 @@ public class ShotDevsClient {
         data.put("location", location);
 
         Map<String, Object> statistics = new HashMap<>();
-        statistics.put("blocksPlaced", player.getStatistic(org.bukkit.Statistic.USE_ITEM, org.bukkit.Material.AIR));
-        statistics.put("blocksBroken", player.getStatistic(org.bukkit.Statistic.MINE_BLOCK, org.bukkit.Material.AIR));
+        Map<String, Double> customStats = plugin.getStatisticManager().getStatistics(player.getUniqueId());
+
+        statistics.put("blocksPlaced", customStats.getOrDefault("blocksPlaced", 0.0));
+        statistics.put("blocksBroken", customStats.getOrDefault("blocksBroken", 0.0));
+        statistics.put("itemsCrafted", customStats.getOrDefault("itemsCrafted", 0.0));
+        statistics.put("damageDealt", customStats.getOrDefault("damageDealt", 0.0));
+
         statistics.put("deaths", player.getStatistic(org.bukkit.Statistic.DEATHS));
         statistics.put("playerKills", player.getStatistic(org.bukkit.Statistic.PLAYER_KILLS));
         statistics.put("mobKills", player.getStatistic(org.bukkit.Statistic.MOB_KILLS));
@@ -180,9 +185,7 @@ public class ShotDevsClient {
         statistics.put("distanceSprinted", player.getStatistic(org.bukkit.Statistic.SPRINT_ONE_CM));
         statistics.put("distanceFlown", player.getStatistic(org.bukkit.Statistic.FLY_ONE_CM));
         statistics.put("timePlayed", player.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE));
-        statistics.put("itemsCrafted", player.getStatistic(org.bukkit.Statistic.CRAFT_ITEM, org.bukkit.Material.AIR));
         statistics.put("damageTaken", player.getStatistic(org.bukkit.Statistic.DAMAGE_TAKEN));
-        statistics.put("damageDealt", player.getStatistic(org.bukkit.Statistic.DAMAGE_DEALT));
         statistics.put("jumps", player.getStatistic(org.bukkit.Statistic.JUMP));
         data.put("statistics", statistics);
 
