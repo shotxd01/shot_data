@@ -43,24 +43,12 @@ public class ShotDevsClient {
                 .build();
     }
 
-    public void sendPlayerData(Player player) {
+    public void sendPlayerQuitData(Player player, Map<String, Number> stats) {
         if (!plugin.getConfig().getBoolean("shotdevs-plugin.data-collection.player-data.enabled", true)) {
             return;
         }
 
-        player.saveData();
-        Map<String, Object> playerData = buildPlayerData(player, true);
-        String jsonPayload = gson.toJson(playerData);
-
-        sendRequestWithRetries("/player_data", jsonPayload);
-    }
-
-    public void sendPlayerQuitData(Player player) {
-        if (!plugin.getConfig().getBoolean("shotdevs-plugin.data-collection.player-data.enabled", true)) {
-            return;
-        }
-
-        Map<String, Object> playerData = buildPlayerData(player, false);
+        Map<String, Object> playerData = buildPlayerData(player, false, stats);
         String jsonPayload = gson.toJson(playerData);
 
         sendRequestWithRetries("/player_data", jsonPayload);
@@ -138,7 +126,7 @@ public class ShotDevsClient {
                 }, executor);
     }
 
-    private Map<String, Object> buildPlayerData(Player player, boolean isOnline) {
+    private Map<String, Object> buildPlayerData(Player player, boolean isOnline, Map<String, Number> fileStats) {
         Map<String, Object> data = new HashMap<>();
         boolean anonymize = plugin.getConfig().getBoolean("shotdevs-plugin.privacy.anonymize-player-names");
         boolean collectIp = plugin.getConfig().getBoolean("shotdevs-plugin.privacy.collect-ip-addresses");
@@ -171,24 +159,7 @@ public class ShotDevsClient {
         location.put("pitch", player.getLocation().getPitch());
         data.put("location", location);
 
-        Map<String, Object> statistics = new HashMap<>();
-        Map<String, Double> customStats = plugin.getStatisticManager().getStatistics(player.getUniqueId());
-
-        statistics.put("blocksPlaced", customStats.getOrDefault("blocksPlaced", 0.0));
-        statistics.put("blocksBroken", customStats.getOrDefault("blocksBroken", 0.0));
-        statistics.put("itemsCrafted", customStats.getOrDefault("itemsCrafted", 0.0));
-        statistics.put("damageDealt", customStats.getOrDefault("damageDealt", 0.0));
-
-        statistics.put("deaths", player.getStatistic(org.bukkit.Statistic.DEATHS));
-        statistics.put("playerKills", player.getStatistic(org.bukkit.Statistic.PLAYER_KILLS));
-        statistics.put("mobKills", player.getStatistic(org.bukkit.Statistic.MOB_KILLS));
-        statistics.put("distanceWalked", player.getStatistic(org.bukkit.Statistic.WALK_ONE_CM) / 100.0);
-        statistics.put("distanceSprinted", player.getStatistic(org.bukkit.Statistic.SPRINT_ONE_CM) / 100.0);
-        statistics.put("distanceFlown", player.getStatistic(org.bukkit.Statistic.FLY_ONE_CM) / 100.0);
-        statistics.put("timePlayed", player.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE) / 72000.0);
-        statistics.put("damageTaken", player.getStatistic(org.bukkit.Statistic.DAMAGE_TAKEN));
-        statistics.put("jumps", player.getStatistic(org.bukkit.Statistic.JUMP));
-        data.put("statistics", statistics);
+        data.put("statistics", fileStats);
 
         return data;
     }
