@@ -48,6 +48,7 @@ public class ShotDevsClient {
             return;
         }
 
+        player.saveData();
         Map<String, Object> playerData = buildPlayerData(player, true);
         String jsonPayload = gson.toJson(playerData);
 
@@ -181,10 +182,10 @@ public class ShotDevsClient {
         statistics.put("deaths", player.getStatistic(org.bukkit.Statistic.DEATHS));
         statistics.put("playerKills", player.getStatistic(org.bukkit.Statistic.PLAYER_KILLS));
         statistics.put("mobKills", player.getStatistic(org.bukkit.Statistic.MOB_KILLS));
-        statistics.put("distanceWalked", player.getStatistic(org.bukkit.Statistic.WALK_ONE_CM));
-        statistics.put("distanceSprinted", player.getStatistic(org.bukkit.Statistic.SPRINT_ONE_CM));
-        statistics.put("distanceFlown", player.getStatistic(org.bukkit.Statistic.FLY_ONE_CM));
-        statistics.put("timePlayed", player.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE));
+        statistics.put("distanceWalked", player.getStatistic(org.bukkit.Statistic.WALK_ONE_CM) / 100.0);
+        statistics.put("distanceSprinted", player.getStatistic(org.bukkit.Statistic.SPRINT_ONE_CM) / 100.0);
+        statistics.put("distanceFlown", player.getStatistic(org.bukkit.Statistic.FLY_ONE_CM) / 100.0);
+        statistics.put("timePlayed", player.getStatistic(org.bukkit.Statistic.PLAY_ONE_MINUTE) / 72000.0);
         statistics.put("damageTaken", player.getStatistic(org.bukkit.Statistic.DAMAGE_TAKEN));
         statistics.put("jumps", player.getStatistic(org.bukkit.Statistic.JUMP));
         data.put("statistics", statistics);
@@ -209,9 +210,9 @@ public class ShotDevsClient {
         // Memory
         Runtime runtime = Runtime.getRuntime();
         Map<String, Long> memoryData = new HashMap<>();
-        memoryData.put("total", runtime.totalMemory());
-        memoryData.put("used", runtime.totalMemory() - runtime.freeMemory());
-        memoryData.put("free", runtime.freeMemory());
+        memoryData.put("total", runtime.totalMemory() / (1024 * 1024));
+        memoryData.put("used", (runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024));
+        memoryData.put("free", runtime.freeMemory() / (1024 * 1024));
         data.put("memory", memoryData);
 
         // Uptime
